@@ -112,7 +112,7 @@ if selected=="Sual cavab sistemi":
 
     if button1:
         payload = {"context":user_context,"question":user_question}
-        response=requests.post("http:/api:8080/predict",json=payload)
+        response=requests.post("http://api:8080/predict",json=payload)
 
 
         st.write(response.json()["asnwer"])

@@ -14,3 +14,4 @@ RUN pip install numpy
 RUN pip install fastapi
 RUN pip install uvicorn
 RUN pip install streamlit
+RUN pip install streamlit-option-menu
