@@ -1,4 +1,3 @@
-
 import streamlit as st
 from streamlit_option_menu  import option_menu
 import requests
@@ -47,8 +46,6 @@ with st.sidebar:
             },
         )
 
-c1 = st.container()
-c2 = st.container()
 if selected=="Data haqqında məlumat":
     st.title(f'Data haqqında məlumat.')
     st.header('SQuAD Azerbaijani Dataset')
