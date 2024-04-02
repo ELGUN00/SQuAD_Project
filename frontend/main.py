@@ -1,7 +1,7 @@
+
 import streamlit as st
 from streamlit_option_menu  import option_menu
 import requests
-import json
 
 
 
@@ -9,10 +9,9 @@ import json
 m = st.markdown("""
     <style>
     div.stButton > button:first-child {
-        background-color: orange;
+        background-color: #1c78bd;
         color:white;
         border: none;
-       
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -30,21 +29,21 @@ m = st.markdown("""
 with st.sidebar:
     selected = option_menu(
             menu_title=None,  # required
-            options=["Data haqqında məlumat", "Sual cavab sistemi"],  # required
-            icons=["house", "envelope"],  # optional
+            options=["Data haqqında məlumat", "Sual cavab sistemi","Model metrics"],  # required
+            icons=["info-circle", "question-circle","calculator"],  # optional
             menu_icon="cast",  # optional
             default_index=0,  # optional
             #orientation="horizontal",
             styles={
-                "container": {"padding": "0!important", "background-color": "#fafafa"},
-                "icon": {"color": "orange", "font-size": "25px"},
+                "container": {"padding": "0!important", "background-color": "#ffffff"},
+                "icon": {"color": "#09446f", "font-size": "25px"},
                 "nav-link": {
                     "font-size": "25px",
                     "text-align": "left",
                     "margin": "0px",
-                    "--hover-color": "#eee",
+                    "--hover-color": "#a3c8e4",
                 },
-                "nav-link-selected": {"background-color": "orange"},
+                "nav-link-selected": {"background-color": "#1c78bd"},
             },
         )
 
@@ -53,6 +52,9 @@ c2 = st.container()
 if selected=="Data haqqında məlumat":
     st.title(f'Data haqqında məlumat.')
     st.header('SQuAD Azerbaijani Dataset')
+
+    st.subheader("Dataset")
+    st.write("https://huggingface.co/datasets/vrashad/squad_azerbaijan/viewer/default/train")
 
     st.subheader('Description')
     st.write("This dataset is the Azerbaijani version of the Stanford Question Answering Dataset (SQuAD), automatically translated from the original English dataset. SQuAD is a prominent dataset in natural language processing, used for machine comprehension and question-answering tasks. It consists of questions based on a set of Wikipedia articles, where the answer to each question is a segment of text from the corresponding article.")
@@ -86,6 +88,7 @@ if selected=="Data haqqında məlumat":
 if selected=="Sual cavab sistemi":
 
 
+
     st.title(f'Sual cavab sisteminə xoş gəldiniz.')
 
 
@@ -97,18 +100,18 @@ if selected=="Sual cavab sistemi":
     user_question =st.text_area ('  ', height=200)
 
 
-    button_html = f'<span font-size: 26px;">cavabla</span>'
-    button_html = f'<span>Click me</span>'
+    #button_html = f'<span style="{button_style} font-size: 26px;">cavabla</span>'
+    #button_html = f'<span style="{button_style}">Click me</span>'
 
-    button1 = st.write(
-        f'<button> Cavabla</button>',
-        unsafe_allow_html=True
-    )
+    # button1 = st.write(
+    #     f'<button style="{button_style}"> Cavabla</button>',
+    #     unsafe_allow_html=True
+    # )
     button1= st.button("cavabla")
 
 
 
-    button1=st.markdown(button_html, unsafe_allow_html=True)
+    #button1=st.markdown(button_html, unsafe_allow_html=True)
 
     if button1:
         payload = {"context":user_context,"question":user_question}
@@ -119,15 +122,10 @@ if selected=="Sual cavab sistemi":
         st.subheader(f'SCORE:{response.json()["score"]}')
 
 
-
-    like= st.checkbox("Model haqqinda məlumatlara baxmaq istəyisinizmi?")
-
-    if like:
-        response=requests.get("http://api:8080/metrics")
-        st.subheader(f'F1 Score:{response.json()["f1 score"]}')
-        st.subheader(f'BLEU Score:{response.json()["BLEU"]}')
-
-
+if selected=="Model metrics":
+    response=requests.get("http://api:8080/metrics")
+    st.subheader(f'F1 Score:{response.json()["f1 score"]}')
+    st.subheader(f'BLEU Score:{response.json()["BLEU"]}')
 
 
 
